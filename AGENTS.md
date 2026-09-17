@@ -2,8 +2,10 @@
 
 ## What this is
 
-The hub site that will live at https://saulo.tech (deployment is not wired up
-yet): a small static site listing Saulo Vallory's projects. Marko 6 + `@marko/run` with the static adapter, Tailwind v4, marko-ui components. Content lives in a single data file under `src/data/`; adding a project is a one-object change.
+The hub site at https://saulo.tech: a small static site listing Saulo
+Vallory's projects. Marko 6 + `@marko/run` with the static adapter, Tailwind
+v4, marko-ui components. Content lives in a single data file under
+`src/data/`; adding a project is a one-object change.
 
 ## Commands
 
@@ -50,28 +52,33 @@ about validity.
 
 ## Deployment
 
-Coolify instance: https://cool.saulo.tech. App name `saulo-tech`, project uuid
-`f313me142hwa32qmhl52cu85`, server uuid `tzjmuwhdqk7p880lpjvmsubz`,
-environment `production` (uuid `s3a95pp3ilycx8pw8svgtcco`). Build pack
-`dockerfile`, repo `https://github.com/svallory/saulo.tech`, branch `main`,
-port `80`, domain `https://saulo.tech`. Push to `main` auto-deploys via
-webhook once the app is created and the branch's webhook is configured in
-Coolify.
+Cloudflare Workers with static assets, project/Worker name `saulo-tech`.
+`wrangler.jsonc` points `assets.directory` at `dist/public/`, with
+`not_found_handling: "404-page"` (serves the built `404.html`, emitted by
+`src/routes/+404.marko`) and `html_handling: "drop-trailing-slash"` (redirects
+`/about/` → `/about`, matching the old nginx behavior). `public/_headers` sets
+long-cache on `/assets/*`, no-cache on HTML, and baseline security headers —
+Workers assets honors `_headers`/`_redirects` files in the assets directory.
 
-The root `Dockerfile` is a two-stage build: `oven/bun:1` builds the static
-export (`bun run build` → `dist/public/`), `nginx:alpine` serves it with
-`nginx.conf` (long-cache on `/assets/`, no-cache on HTML, gzip, real 404s —
-no SPA fallback to `index.html`).
+Custom domain `saulo.tech` is attached via `routes: [{ pattern: "saulo.tech",
+custom_domain: true }]` in `wrangler.jsonc`; Cloudflare manages the DNS record
+for that itself (a proxied AAAA `100::` tied to the Worker), so don't hand-edit
+DNS for the apex.
 
-Inspect a running deployment:
+`.github/workflows/deploy.yml` builds and runs `wrangler deploy` on every push
+to `main` (and `workflow_dispatch`), using repo secrets
+`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`. To deploy manually from a
+branch:
 
 ```bash
-coolify app logs <app-uuid> --follow -n 100
-coolify app deployments list <app-uuid>
-coolify app get <app-uuid> --format json
+bun run build
+bunx wrangler deploy
 ```
 
-Never print, log, or commit a Coolify token.
+Never print, log, or commit a Cloudflare API token.
+
+The site previously ran on Coolify (Dockerfile + nginx); that app has been
+stopped and is being retired.
 
 ## Conventions
 
