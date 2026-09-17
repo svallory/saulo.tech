@@ -1,0 +1,12 @@
+import { cn } from "../../../lib/utils.ts";
+static const styles = {
+  root: "flex flex-col gap-3 px-(--card-spacing)",
+} as const;
+
+export interface Input extends Marko.Input<"div"> {}
+
+<const/{ class: className, content, ...rest }=input/>
+
+<div data-slot="card-content" class=cn(styles.root, className) ...rest>
+  <${content}/>
+</div>
