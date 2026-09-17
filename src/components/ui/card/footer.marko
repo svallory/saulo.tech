@@ -1,0 +1,12 @@
+import { cn } from "../../../lib/utils.ts";
+static const styles = {
+  root: "rounded-b-xl px-(--card-spacing) [.border-t]:pt-(--card-spacing) flex items-center",
+} as const;
+
+export interface Input extends Marko.Input<"div"> {}
+
+<const/{ class: className, content, ...rest }=input/>
+
+<div data-slot="card-footer" class=cn(styles.root, className) ...rest>
+  <${content}/>
+</div>
