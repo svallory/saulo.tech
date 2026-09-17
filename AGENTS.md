@@ -48,6 +48,31 @@ clean. `.htmlvalidate.json` turns off `attr-quotes` and `doctype-style` — both
 are source-style preferences that fire on minified build output and say nothing
 about validity.
 
+## Deployment
+
+Coolify instance: https://cool.saulo.tech. App name `saulo-tech`, project uuid
+`f313me142hwa32qmhl52cu85`, server uuid `tzjmuwhdqk7p880lpjvmsubz`,
+environment `production` (uuid `s3a95pp3ilycx8pw8svgtcco`). Build pack
+`dockerfile`, repo `https://github.com/svallory/saulo.tech`, branch `main`,
+port `80`, domain `https://saulo.tech`. Push to `main` auto-deploys via
+webhook once the app is created and the branch's webhook is configured in
+Coolify.
+
+The root `Dockerfile` is a two-stage build: `oven/bun:1` builds the static
+export (`bun run build` → `dist/public/`), `nginx:alpine` serves it with
+`nginx.conf` (long-cache on `/assets/`, no-cache on HTML, gzip, real 404s —
+no SPA fallback to `index.html`).
+
+Inspect a running deployment:
+
+```bash
+coolify app logs <app-uuid> --follow -n 100
+coolify app deployments list <app-uuid>
+coolify app get <app-uuid> --format json
+```
+
+Never print, log, or commit a Coolify token.
+
 ## Conventions
 
 - Conventional commits: `type(scope): summary`. Never put agent session ids in commit messages; they belong in the PR description's AI-assisted note.
