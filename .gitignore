@@ -1,0 +1,8 @@
+.DS_Store
+.env
+.marko-run
+.vscode/settings.json
+*.log
+dist
+node_modules
+Thumbs.db
