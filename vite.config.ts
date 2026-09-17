@@ -5,4 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [tailwindcss(), marko({ adapter: staticAdapter() })],
+  build: {
+    sourcemap: false,
+  },
 });

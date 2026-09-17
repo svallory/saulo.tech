@@ -1,13 +1,21 @@
 import "../app.css";
+import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import spaceGroteskLatinWoff2 from "@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url";
+
+static const defaultTitle = "Page not found — Saulo Vallory";
+static const defaultDescription = "The page you're looking for doesn't exist on saulo.tech.";
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${$global.meta.title}</title>
-    <meta name="description" content=$global.meta.description>
+    <title>${$global.meta.title || defaultTitle}</title>
+    <meta name="description" content=($global.meta.description || defaultDescription)>
     <link rel="canonical" href=`https://saulo.tech${$global.url.pathname}`>
+
+    <link rel="preload" as="font" type="font/woff2" href=interLatinWoff2 crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href=spaceGroteskLatinWoff2 crossorigin>
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
@@ -15,8 +23,8 @@ import "../app.css";
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Saulo Vallory">
-    <meta property="og:title" content=$global.meta.title>
-    <meta property="og:description" content=$global.meta.description>
+    <meta property="og:title" content=($global.meta.title || defaultTitle)>
+    <meta property="og:description" content=($global.meta.description || defaultDescription)>
     <meta property="og:image" content="https://saulo.tech/og.png">
     <meta property="og:url" content=`https://saulo.tech${$global.url.pathname}`>
     <meta name="twitter:card" content="summary_large_image">

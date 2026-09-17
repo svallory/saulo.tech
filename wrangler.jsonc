@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "saulo-tech",
   "compatibility_date": "2026-09-17",
+  "workers_dev": false,
   "assets": {
     "directory": "dist/public",
     "not_found_handling": "404-page",
