@@ -1,0 +1,36 @@
+static const facets = [
+  "Social alchemist",
+  "Curious",
+  "Creative",
+  "Twice-exceptional",
+  "Poet",
+  "Songwriter",
+  "Dancer",
+  "Guitarist",
+  "Amateur cook",
+];
+
+<main class="mx-auto max-w-2xl px-4 py-16 sm:px-8 lg:py-24">
+  <a href="/" class="text-signal text-sm underline underline-offset-4">Back to projects</a>
+
+  <h1 class="font-display mt-8 text-4xl leading-tight font-semibold tracking-[-0.03em] sm:text-5xl">
+    About
+  </h1>
+
+  <p class="mt-8 text-lg leading-relaxed">
+    I am a polyglot senior software engineer in São Paulo. Most of what I publish sits close to
+    the compiler: template languages, component libraries, and the tooling that makes both
+    pleasant to work with.
+  </p>
+
+  <p class="text-muted-foreground mt-5 leading-relaxed">
+    Away from the editor I write, cook, dance, and play guitar. The list below is how I describe
+    myself when a single job title will not do.
+  </p>
+
+  <ul class="border-border mt-10 grid gap-x-8 border-t pt-6 sm:grid-cols-2">
+    <for|facet| of=facets>
+      <li class="border-border border-b py-2.5 text-[0.95rem]">${facet}</li>
+    </for>
+  </ul>
+</main>

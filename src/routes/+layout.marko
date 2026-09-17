@@ -1,0 +1,28 @@
+import "../app.css";
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${$global.meta.title}</title>
+    <meta name="description" content=$global.meta.description>
+    <link rel="canonical" href=`https://saulo.tech${$global.url.pathname}`>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e0f14" media="(prefers-color-scheme: dark)">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Saulo Vallory">
+    <meta property="og:title" content=$global.meta.title>
+    <meta property="og:description" content=$global.meta.description>
+    <meta property="og:image" content="https://saulo.tech/og.png">
+    <meta property="og:url" content=`https://saulo.tech${$global.url.pathname}`>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@svallory_en">
+  </head>
+  <body>
+    <${input.content}/>
+  </body>
+</html>

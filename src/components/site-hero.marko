@@ -1,0 +1,87 @@
+import { buttonVariants } from "./ui/button/variants.ts";
+import type { Project } from "../data/projects.ts";
+
+export interface Input {
+  projects: Project[];
+}
+
+/**
+ * Small counts read better spelled out in a sentence than as numerals. The list
+ * is only ever going to be a handful of projects, so a lookup is enough; past
+ * the end of it the numeral is perfectly fine.
+ */
+static const numberWords = [
+  "No",
+  "One",
+  "Two",
+  "Three",
+  "Four",
+  "Five",
+  "Six",
+  "Seven",
+  "Eight",
+  "Nine",
+  "Ten",
+  "Eleven",
+  "Twelve",
+];
+
+static function spellCount(n: number) {
+  return numberWords[n] ?? String(n);
+}
+
+static const contacts = [
+  { label: "GitHub", href: "https://github.com/svallory" },
+  { label: "X", href: "https://x.com/svallory_en" },
+  { label: "Blog", href: "https://saulo.engineer" },
+  { label: "Email", href: "mailto:me@saulo.engineer" },
+];
+
+<header class="mx-auto grid max-w-6xl gap-12 px-4 pt-16 pb-14 sm:px-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16 lg:pt-28 lg:pb-20">
+  <div class="max-w-[34rem]">
+    <h1 class="font-display text-5xl leading-[0.95] font-semibold tracking-[-0.03em] sm:text-6xl lg:text-7xl">
+      Saulo Vallory
+    </h1>
+    <p class="text-muted-foreground mt-6 text-lg leading-relaxed sm:text-xl">
+      I build compilers, component libraries, and developer tools, and I do it in the open.
+    </p>
+
+    <nav class="mt-9 flex flex-wrap gap-2" aria-label="Elsewhere">
+      <for|contact| of=contacts>
+        <a
+          href=contact.href
+          class=buttonVariants({ variant: "outline", size: "sm" })
+        >
+          ${contact.label}
+        </a>
+      </for>
+    </nav>
+  </div>
+
+  <div class="lg:pt-6">
+    <h2 class="text-muted-foreground text-sm" id="index-heading">
+      ${spellCount(input.projects.length)} projects, newest work first
+    </h2>
+    <ol class="mt-4 -space-y-px" aria-labelledby="index-heading">
+      <for|project, i| of=input.projects>
+        <li class="index-entry border-border border-y" style=`--i:${i}`>
+          <a
+            href=`#${project.name}`
+            class="group hover:text-signal flex items-baseline gap-3 py-2.5 transition-colors"
+          >
+            <span class="font-display text-[0.95rem] font-medium">${project.name}</span>
+            <span class="border-border/70 mx-1 hidden flex-1 border-b border-dashed sm:block"></span>
+            <span class="text-muted-foreground group-hover:text-signal text-xs">
+              <if=project.wip>
+                in progress
+              </if>
+              <else>
+                ${project.tech}
+              </else>
+            </span>
+          </a>
+        </li>
+      </for>
+    </ol>
+  </div>
+</header>

@@ -1,0 +1,99 @@
+import Card from "./ui/card/card.marko";
+import CardHeader from "./ui/card/header.marko";
+import CardTitle from "./ui/card/title.marko";
+import CardDescription from "./ui/card/description.marko";
+import CardContent from "./ui/card/content.marko";
+import CardFooter from "./ui/card/footer.marko";
+import Badge from "./ui/badge/badge.marko";
+import Separator from "./ui/separator/separator.marko";
+import { buttonVariants } from "./ui/button/variants.ts";
+import { cn } from "../lib/utils.ts";
+import type { Project } from "../data/projects.ts";
+
+export interface Input {
+  project: Project;
+  /** Lead card: spans both grid columns and sets the image beside the text. */
+  wide?: boolean;
+}
+
+<const/{ project, wide = false }=input/>
+
+<const/links=[
+  { label: "Repository", href: project.repo },
+  ...(project.docs ? [{ label: "Documentation", href: project.docs }] : []),
+  ...(project.npm ? [{ label: "npm", href: `https://www.npmjs.com/package/${project.npm}` }] : []),
+]/>
+
+<Card
+  id=project.name
+  class=cn(
+    "scroll-mt-8",
+    wide && "sm:col-span-2 sm:grid sm:grid-cols-2 sm:items-center sm:gap-x-(--card-spacing)",
+  )
+>
+  <img
+    src=project.image
+    alt=project.alt
+    width="480"
+    height="270"
+    fetchpriority=(wide ? "high" : undefined)
+    loading=(wide ? "eager" : "lazy")
+    decoding="async"
+    class=cn(
+      "aspect-[16/9] w-full object-cover",
+      wide && "sm:h-full sm:rounded-none",
+    )
+  >
+
+  <!--
+    Card lays its own children out as a flex column; this wrapper has to
+    reproduce that spacing itself, otherwise header/content/footer collapse
+    together (and on the wide card, stretch to the image's full height).
+  -->
+  <div class=cn(
+    "flex flex-1 flex-col gap-(--card-spacing)",
+    wide && "sm:py-(--card-spacing)",
+  )>
+    <CardHeader>
+      <CardTitle class="flex flex-wrap items-center gap-2 text-lg">
+        ${project.name}
+        <if=project.wip>
+          <Badge variant="outline" class="text-wip border-wip/40">Work in progress</Badge>
+        </if>
+      </CardTitle>
+      <CardDescription class="mt-1 text-[0.9rem] leading-relaxed">
+        ${project.pitch}
+      </CardDescription>
+    </CardHeader>
+
+    <CardContent>
+      <div class="flex flex-wrap items-center gap-2">
+        <Badge variant="secondary">${project.tech}</Badge>
+        <if=project.npm && !project.wip>
+          <img
+            src=`https://img.shields.io/npm/v/${encodeURIComponent(project.npm)}?label=${encodeURIComponent(project.npm)}&labelColor=1c1f2b&color=4b3fe4&style=flat-square`
+            alt=`Current npm version of ${project.npm}`
+            width="150"
+            height="20"
+            loading="lazy"
+            decoding="async"
+            class="h-5 w-auto"
+          >
+        </if>
+      </div>
+    </CardContent>
+
+    <Separator class="mt-auto"/>
+
+    <CardFooter class="-mx-1 flex-wrap gap-1">
+      <for|link| of=links>
+        <a
+          href=link.href
+          class=buttonVariants({ variant: "ghost", size: "sm" })
+        >
+          ${link.label}
+        </a>
+      </for>
+    </CardFooter>
+  </div>
+</Card>
