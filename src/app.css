@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/inter";
+
+@source "./**/*.marko";
+
+/*
+ * marko-ui's components are written against shadcn's token names
+ * (--color-background, --color-card, --radius-*, …), so those names are kept.
+ * The values are this site's own palette, and the dark scheme is driven by
+ * `prefers-color-scheme` rather than shadcn's `.dark` class — nothing here
+ * toggles a theme at runtime, so a class hook would only be dead weight.
+ *
+ * `dark:` utilities still work through the custom variant below, for the few
+ * places a value has to differ per scheme beyond a token swap.
+ */
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+@theme inline {
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-signal: var(--signal);
+  --color-wip: var(--wip);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: #fbfaf7;
+  --foreground: #12131a;
+  --card: #ffffff;
+  --card-foreground: #12131a;
+  --primary: #4b3fe4;
+  --primary-foreground: #fbfaf7;
+  --secondary: #f2f0ea;
+  --secondary-foreground: #12131a;
+  --muted: #f2f0ea;
+  --muted-foreground: #5c5e6c;
+  --accent: #f2f0ea;
+  --accent-foreground: #12131a;
+  --destructive: #b3261e;
+  --destructive-foreground: #fbfaf7;
+  --border: #e3e1da;
+  --input: #e3e1da;
+  --ring: #4b3fe4;
+
+  --signal: #4b3fe4;
+  /* Darkened from the image amber so text on paper clears 4.5:1. */
+  --wip: #7a4e06;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e0f14;
+    --foreground: #edece8;
+    --card: #161822;
+    --card-foreground: #edece8;
+    --primary: #8b82ff;
+    --primary-foreground: #0e0f14;
+    --secondary: #1c1f2b;
+    --secondary-foreground: #edece8;
+    --muted: #1c1f2b;
+    --muted-foreground: #a0a2b0;
+    --accent: #1c1f2b;
+    --accent-foreground: #edece8;
+    --destructive: #ff6b60;
+    --destructive-foreground: #0e0f14;
+    --border: #262734;
+    --input: #262734;
+    --ring: #8b82ff;
+
+    --signal: #8b82ff;
+    --wip: #e0b354;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Tabular figures so version numbers in the card rail line up column-wise. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    @apply outline-signal outline-2 outline-offset-2;
+  }
+}
+
+/*
+ * The card title from the registry carries `mu-font-heading`, a hook class the
+ * import distribution defines and the copy distribution does not. Map it here
+ * so titles pick up the display face instead of silently inheriting body type.
+ */
+.mu-font-heading {
+  font-family: var(--font-display);
+}
+
+/*
+ * One orchestrated entrance: the hero index resolves on load, nothing else
+ * moves.
+ *
+ * Each row settles into place and its rule fades up from transparent; no
+ * opacity is animated anywhere. An earlier version animated `opacity` on the
+ * whole row, which left the labels rendering at partial alpha for a few hundred
+ * milliseconds — long enough for axe to sample them mid-flight and (correctly)
+ * report contrast down at 1.19:1. Text that is briefly unreadable is a real
+ * accessibility defect, not just an audit artifact, so nothing here touches the
+ * type: only `transform` and `border-color` move.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes index-in {
+    from {
+      transform: translateY(0.4rem);
+      border-color: transparent;
+    }
+  }
+
+  .index-entry {
+    animation: index-in 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+}

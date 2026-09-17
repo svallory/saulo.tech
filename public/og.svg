@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#12131A"/>
+  <g stroke="#262734" stroke-width="1.5">
+    <path d="M0 157.5h1200M0 315h1200M0 472.5h1200M300 0v630M600 0v630M900 0v630"/>
+  </g>
+  <rect x="80" y="252" width="8" height="120" fill="#6C5CFF"/>
+  <text x="128" y="316" font-family="'Space Grotesk',system-ui,sans-serif" font-size="86" font-weight="600" fill="#EDECE8">Saulo Vallory</text>
+  <text x="128" y="372" font-family="Inter,system-ui,sans-serif" font-size="32" fill="#8E90A2">Compilers, component libraries, and developer tools</text>
+</svg>

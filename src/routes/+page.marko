@@ -1,0 +1,29 @@
+import SiteHero from "../components/site-hero.marko";
+import ProjectCard from "../components/project-card.marko";
+import { projects } from "../data/projects.ts";
+
+<SiteHero projects=projects/>
+
+<main class="mx-auto max-w-6xl px-4 pb-20 sm:px-8">
+  <h2 class="sr-only">Projects</h2>
+  <!--
+    Seven cards in two columns would orphan the last one on a row of its own.
+    The lead project spans both columns instead, which fills the grid exactly
+    and gives the newest work the weight it deserves.
+  -->
+  <div class="border-border grid gap-6 border-t pt-10 sm:grid-cols-2">
+    <for|project, i| of=projects>
+      <ProjectCard project=project wide=(i === 0)/>
+    </for>
+  </div>
+</main>
+
+<footer class="border-border mx-auto max-w-6xl border-t px-4 py-10 sm:px-8">
+  <p class="text-muted-foreground text-sm">
+    Built in São Paulo with Marko and
+    <a href="https://marko-ui.saulo.tech" class="text-signal underline underline-offset-4">
+      marko-ui
+    </a>.
+    <a href="/about" class="text-signal ml-1 underline underline-offset-4">More about me</a>
+  </p>
+</footer>
