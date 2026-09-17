@@ -2,7 +2,7 @@
 
 Hub site for Saulo Vallory's projects: a curated list of open-source work with an image, a short description, and links to the repo, docs, and package for each.
 
-Built with [Marko 6](https://markojs.com) and [@marko/run](https://github.com/marko-js/run) (static adapter), styled with Tailwind v4, using [marko-ui](https://marko-ui.saulo.tech) components. Will live at <https://saulo.tech>; deployment is not wired up yet.
+Built with [Marko 6](https://markojs.com) and [@marko/run](https://github.com/marko-js/run) (static adapter), styled with Tailwind v4, using [marko-ui](https://marko-ui.saulo.tech) components. Deployed at <https://saulo.tech> via Cloudflare Workers static assets.
 
 ## Development
 
